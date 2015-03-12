@@ -51,7 +51,7 @@ class Smpp::Transceiver < Smpp::Base
         options[:esm_class] = 64 # This message contains a UDH header.
         options[:udh] = udh
 
-        pdu = Pdu::SubmitSm.new(source_addr, destination_addr, parts[i].force_encoding("BINARY"), options)
+        pdu = Pdu::SubmitSm.new(source_addr, destination_addr, parts[i], options)
         write_pdu pdu
         
         # This is definately a bit hacky - multiple PDUs are being associated with a single
