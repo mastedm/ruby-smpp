@@ -39,12 +39,11 @@ class Smpp::Transceiver < Smpp::Base
         parts << message.slice!(0..Smpp::Transceiver.get_message_part_size(options))
       end
       
+      m_id = message_id.class == String ? message_id[-1] : (message_id.to_i & 0xFF)
       0.upto(parts.size-1) do |i|
         udh = sprintf("%c", 5)            # UDH is 5 bytes.
         udh << sprintf("%c%c", 0, 3)      # This is a concatenated message 
-
-        #TODO Figure out why this needs to be an int here, it's a string elsewhere
-        udh << sprintf("%c", message_id)  # The ID for the entire concatenated message
+        udh << sprintf("%c", m_id)        # The ID for the entire concatenated message
 
         udh << sprintf("%c", parts.size)  # How many parts this message consists of
         udh << sprintf("%c", i+1)         # This is part i+1
