@@ -43,10 +43,10 @@ class Smpp::Transceiver < Smpp::Base
       0.upto(parts.size-1) do |i|
         udh = sprintf("%c", 5)            # UDH is 5 bytes.
         udh << sprintf("%c%c", 0, 3)      # This is a concatenated message 
-        udh << sprintf("%c", m_id)        # The ID for the entire concatenated message
+        udh << sprintf("%c".force_encoding("ASCII-8BIT"), m_id)        # The ID for the entire concatenated message
 
-        udh << sprintf("%c", parts.size)  # How many parts this message consists of
-        udh << sprintf("%c", i+1)         # This is part i+1
+        udh << sprintf("%c".force_encoding("ASCII-8BIT"), parts.size)  # How many parts this message consists of
+        udh << sprintf("%c".force_encoding("ASCII-8BIT"), i+1)         # This is part i+1
         
         options[:esm_class] = 64 # This message contains a UDH header.
         options[:udh] = udh
