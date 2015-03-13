@@ -83,18 +83,11 @@ module Smpp::Pdu
     attr_reader :command_id, :command_status, :sequence_number, :body, :data
 
     def initialize(command_id, command_status, seq, body='')    
+      length = 16 + body.length
       @command_id = command_id
       @command_status = command_status
       @body = body
       @sequence_number = seq
-      
-      # XXX hard solution!
-      if body.encoding.to_s == "UTF-8"
-        body = body.force_encoding("BINARY")
-      end
-      
-      length = 16 + body.length
-      
       @data = fixed_int(length) + fixed_int(command_id) + fixed_int(command_status) + fixed_int(seq) + body   
     end      
 
