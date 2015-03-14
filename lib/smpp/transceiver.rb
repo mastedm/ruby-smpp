@@ -24,6 +24,8 @@ class Smpp::Transceiver < Smpp::Base
       # keep the message ID so we can associate the SMSC message ID with our message
       # when the response arrives.      
       @ack_ids[pdu.sequence_number] = message_id
+
+      pdu
     else
       raise InvalidStateException, "Transceiver is unbound. Cannot send MT messages."
     end
